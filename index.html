@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brian Gan – Lean & Operational Excellence Trainer</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #fff9f3;
+    --brown: #3b2a1a;
+    --mid-brown: #6b4c30;
+    --accent: #c8763a;
+    --accent-light: #e8a96e;
+    --accent-pale: #fceede;
+    --green: #4a7c59;
+    --green-pale: #e6f0ea;
+    --text: #2e1f10;
+    --muted: #8a6f56;
+    --border: #e8d9c8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 6vw;
+    background: rgba(250,247,242,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Lora', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--brown);
+    letter-spacing: 0.01em;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--mid-brown);
+    font-size: 0.9rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 6vw 5rem;
+    gap: 4rem;
+    background: var(--warm-white);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, var(--accent-pale) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: -80px; left: -80px;
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, var(--green-pale) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-text { position: relative; z-index: 1; animation: fadeUp 0.8s ease both; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--accent-pale);
+    color: var(--accent);
+    font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.35rem 0.9rem; border-radius: 50px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before { content: '✦'; font-size: 0.6rem; }
+
+  h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    line-height: 1.2;
+    color: var(--brown);
+    margin-bottom: 1.2rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .hero-desc {
+    font-size: 1.05rem; color: var(--muted);
+    max-width: 480px; margin-bottom: 2rem;
+    font-weight: 300;
+  }
+
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 0.6rem;
+    margin-bottom: 2.2rem;
+  }
+  .badge {
+    background: var(--green-pale); color: var(--green);
+    font-size: 0.78rem; font-weight: 600;
+    padding: 0.3rem 0.8rem; border-radius: 50px;
+    border: 1px solid #c0dbc9;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.85rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(200,118,58,0.3);
+  }
+  .hero-cta:hover {
+    background: var(--mid-brown);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(107,76,48,0.3);
+  }
+
+  .hero-visual {
+    position: relative; z-index: 1;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+  .hero-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 12px 50px rgba(59,42,26,0.1);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .hero-card::before {
+    content: '"';
+    font-family: 'Lora', serif;
+    font-size: 8rem; color: var(--accent-pale);
+    position: absolute; top: -1rem; left: 1.5rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+  .quote-text {
+    font-family: 'Lora', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--brown);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .stats-row {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 2rem; font-weight: 700;
+    color: var(--accent); line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+  .stat-label { font-size: 0.75rem; color: var(--muted); font-weight: 500; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: 5rem 6vw; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: var(--accent); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .section-label::after { content: ''; display: block; width: 32px; height: 2px; background: var(--accent-light); border-radius: 2px; }
+
+  h2 {
+    font-family: 'Lora', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+    color: var(--brown);
+    margin-bottom: 1rem;
+    line-height: 1.25;
+  }
+  .section-intro { font-size: 1rem; color: var(--muted); max-width: 560px; }
+
+  /* ─── ABOUT ─── */
+  .about { background: var(--cream); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: start; margin-top: 3rem;
+  }
+  .about-body { font-size: 1rem; color: #5a3e28; line-height: 1.8; }
+  .about-body p + p { margin-top: 1rem; }
+
+  .about-highlights { display: flex; flex-direction: column; gap: 1.2rem; }
+  .highlight-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .highlight-item:hover { box-shadow: 0 6px 24px rgba(59,42,26,0.08); transform: translateY(-2px); }
+  .highlight-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .highlight-title { font-weight: 600; color: var(--brown); font-size: 0.95rem; margin-bottom: 0.2rem; }
+  .highlight-desc { font-size: 0.85rem; color: var(--muted); }
+
+  /* ─── COURSES ─── */
+  .courses { background: var(--brown); }
+  .courses .section-label { color: var(--accent-light); }
+  .courses .section-label::after { background: var(--accent); }
+  .courses h2 { color: #fff; }
+  .courses .section-intro { color: #c4a98a; }
+
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem; margin-top: 2.5rem;
+  }
+  .course-card {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px;
+    padding: 1.4rem 1.5rem;
+    transition: background 0.2s, transform 0.2s;
+    cursor: default;
+  }
+  .course-card:hover {
+    background: rgba(200,118,58,0.15);
+    transform: translateY(-3px);
+    border-color: rgba(200,118,58,0.4);
+  }
+  .course-icon { font-size: 1.6rem; margin-bottom: 0.7rem; }
+  .course-name { font-weight: 600; color: #fff; font-size: 0.92rem; margin-bottom: 0.3rem; }
+  .course-short { font-size: 0.8rem; color: #c4a98a; }
+
+  /* ─── CLIENTS ─── */
+  .clients { background: var(--warm-white); }
+  .clients-intro-row {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    flex-wrap: wrap; gap: 1rem; margin-bottom: 2.5rem;
+  }
+  .clients-list {
+    display: flex; flex-wrap: wrap; gap: 0.8rem;
+  }
+  .client-chip {
+    background: #fff; border: 1px solid var(--border);
+    padding: 0.5rem 1.1rem; border-radius: 50px;
+    font-size: 0.85rem; font-weight: 500; color: var(--mid-brown);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .client-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ─── CASE STUDIES ─── */
+  .cases { background: var(--accent-pale); }
+  .cases-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem; }
+  .case-card {
+    background: #fff; border-radius: 20px;
+    padding: 2rem; border: 1px solid var(--border);
+    transition: box-shadow 0.2s;
+  }
+  .case-card:hover { box-shadow: 0 8px 32px rgba(59,42,26,0.1); }
+  .case-tag {
+    display: inline-block; background: var(--accent-pale);
+    color: var(--accent); font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 0.2rem 0.7rem; border-radius: 50px;
+    margin-bottom: 0.8rem;
+  }
+  .case-title { font-family: 'Lora', serif; font-size: 1.1rem; color: var(--brown); margin-bottom: 0.8rem; }
+  .case-outcomes { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .case-outcomes li {
+    font-size: 0.87rem; color: var(--muted);
+    padding-left: 1.2rem; position: relative;
+  }
+  .case-outcomes li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 600; }
+
+  /* ─── CREDS ─── */
+  .credentials { background: var(--cream); }
+  .creds-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-top: 2rem; }
+  .cred-card {
+    background: #fff; border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.4rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .cred-card:hover { box-shadow: 0 6px 24px rgba(59,42,26,0.08); transform: translateY(-2px); }
+  .cred-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+  .cred-title { font-weight: 600; font-size: 0.88rem; color: var(--brown); margin-bottom: 0.3rem; }
+  .cred-sub { font-size: 0.77rem; color: var(--muted); }
+
+  /* ─── CONTACT ─── */
+  .contact {
+    background: linear-gradient(135deg, var(--brown) 0%, #5c3d22 100%);
+    text-align: center;
+  }
+  .contact h2 { color: #fff; margin-bottom: 0.8rem; }
+  .contact .section-intro { color: #c4a98a; margin: 0 auto 2.5rem; max-width: 500px; }
+  .contact-cards { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .contact-card {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 1.8rem 2.5rem;
+    min-width: 220px;
+    transition: background 0.2s;
+  }
+  .contact-card:hover { background: rgba(255,255,255,0.14); }
+  .contact-icon { font-size: 1.8rem; margin-bottom: 0.6rem; }
+  .contact-type { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-light); font-weight: 600; margin-bottom: 0.3rem; }
+  .contact-value { font-size: 1.1rem; font-weight: 600; color: #fff; }
+  .contact-value a { color: #fff; text-decoration: none; }
+  .contact-value a:hover { color: var(--accent-light); }
+  .hrdc-note { font-size: 0.82rem; color: #c4a98a; }
+  .hrdc-note strong { color: var(--accent-light); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #1e1008; color: #8a6f56;
+    text-align: center; padding: 1.5rem 6vw;
+    font-size: 0.82rem;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding-top: 6rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .cases-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .clients-intro-row { flex-direction: column; }
+    .contact-cards { flex-direction: column; align-items: center; }
+    .stats-row { grid-template-columns: repeat(3,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Brian <span>Gan</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#clients">Clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Lean & Operational Excellence</div>
+    <h1>Turning Waste Into <em>Results</em>, One Team at a Time</h1>
+    <p class="hero-desc">
+      Over 15 years of hands-on training experience helping manufacturers, 
+      financial services, and logistics teams work leaner, smarter, and better.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">✔ HRDC Accredited</span>
+      <span class="badge">✔ Six Sigma Green Belt</span>
+      <span class="badge">✔ Certified Virtual Facilitator</span>
+    </div>
+    <a href="#contact" class="hero-cta">Enquire About Training →</a>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <p class="quote-text">
+        I don't just teach the subject matter — I let participants 
+        experience and practise it, making learning both effective and memorable.
+      </p>
+      <div class="stats-row">
+        <div class="stat">
+          <div class="stat-num">15+</div>
+          <div class="stat-label">Years Training</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">400+</div>
+          <div class="stat-label">Participants</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">100+</div>
+          <div class="stat-label">Clients</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">About Brian</div>
+  <h2>20 Years of Cross-Industry Expertise</h2>
+  <div class="about-grid">
+    <div class="about-body">
+      <p>
+        Brian Gan is a seasoned trainer and coach with over 15 years dedicated to 
+        helping organisations build cultures of efficiency, effectiveness, and 
+        continuous improvement. He holds a Bachelor of Industrial Engineering 
+        (Honours) from Australia and brings deep practical knowledge from over 
+        20 years working across manufacturing, financial shared services, property 
+        development, healthcare, and warehousing.
+      </p>
+      <p>
+        What sets Brian apart is his rare ability to bridge theory and practice. 
+        He has personally led Lean transformations on the shop floor — not just 
+        facilitated workshops — giving him the credibility and stories that make 
+        complex concepts click for participants at every level, from operators to 
+        senior managers.
+      </p>
+      <p>
+        He has conducted more than 46 public and in-house training sessions, 
+        representing about 100 client organisations across manufacturing, trading, 
+        and shared services industries.
+      </p>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="highlight-icon">🏭</div>
+        <div>
+          <div class="highlight-title">Multi-Industry Experience</div>
+          <div class="highlight-desc">Manufacturing, financial services, property, healthcare, warehousing & logistics.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🎯</div>
+        <div>
+          <div class="highlight-title">Practical, Not Just Theory</div>
+          <div class="highlight-desc">Real Lean deployments, real results — not just classroom simulations.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🤝</div>
+        <div>
+          <div class="highlight-title">HRDC Claimable Training</div>
+          <div class="highlight-desc">All programmes are HRDC accredited (Trainer ID: 37734). Malaysian companies can claim training costs.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="highlight-icon">🌐</div>
+        <div>
+          <div class="highlight-title">In-Person & Virtual Delivery</div>
+          <div class="highlight-desc">Certified Virtual Learning Facilitator — effective training wherever your team is.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section class="courses" id="courses">
+  <div class="section-label">Popular Programmes</div>
+  <h2>Training That Fits Your Industry</h2>
+  <p class="section-intro">From shop-floor operators to senior managers — programmes are customised to your organisation's context and goals.</p>
+  <div class="courses-grid">
+    <div class="course-card">
+      <div class="course-icon">⚙️</div>
+      <div class="course-name">Toyota Production System (TPS) / Lean Manufacturing</div>
+      <div class="course-short">The gold standard of operational excellence</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">🗺️</div>
+      <div class="course-name">Value Stream Mapping (VSM)</div>
+      <div class="course-short">See, understand & eliminate waste in your processes</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">🔄</div>
+      <div class="course-name">Kaizen for Continuous Improvement</div>
+      <div class="course-short">Build a culture of ongoing improvement</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">📋</div>
+      <div class="course-name">5S Workplace Visual Management</div>
+      <div class="course-short">Organise, standardise and sustain the workplace</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">⚠️</div>
+      <div class="course-name">FMEA (Failure Mode & Effect Analysis)</div>
+      <div class="course-short">Proactively identify and prevent failures</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">🔍</div>
+      <div class="course-name">Root Cause Analysis for Problem Solving</div>
+      <div class="course-short">Solve problems at their source, not just symptoms</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">📊</div>
+      <div class="course-name">7 QC Tools</div>
+      <div class="course-short">Practical quality control tools for every team</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">🏢</div>
+      <div class="course-name">Lean Business Transformation Strategy</div>
+      <div class="course-short">Enterprise-wide Lean roadmap & deployment</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">📦</div>
+      <div class="course-name">Warehouse Operational Excellence</div>
+      <div class="course-short">Lean principles applied to warehousing & logistics</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">👷</div>
+      <div class="course-name">TWI – Training Within Industry</div>
+      <div class="course-short">Structured on-the-job training for supervisors</div>
+    </div>
+    <div class="course-card">
+      <div class="course-icon">🏅</div>
+      <div class="course-name">Lean Practitioner Certification Program</div>
+      <div class="course-short">Train, certify and empower internal Lean champions</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients" id="clients">
+  <div class="clients-intro-row">
+    <div>
+      <div class="section-label">Trusted By</div>
+      <h2>Clients Across Industries</h2>
+    </div>
+    <p class="section-intro" style="max-width:380px;">
+      Brian has worked with organisations spanning plastics manufacturing, 
+      FMCG, engineering, banking, e-commerce logistics, and more.
+    </p>
+  </div>
+  <div class="clients-list">
+    <span class="client-chip">Ge Shen Plastic Group</span>
+    <span class="client-chip">etika Holdings</span>
+    <span class="client-chip">Worley Parsons Services</span>
+    <span class="client-chip">Delloyd Industries</span>
+    <span class="client-chip">Formosa Prosonic Industries</span>
+    <span class="client-chip">Autoliv Safety</span>
+    <span class="client-chip">AmBank Group</span>
+    <span class="client-chip">Lazada Express</span>
+    <span class="client-chip">UEM Edgenta</span>
+    <span class="client-chip">& 90+ more organisations</span>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="cases" id="cases">
+  <div class="section-label">Results in Action</div>
+  <h2>Real Transformations, Real Impact</h2>
+  <div class="cases-grid">
+    <div class="case-card">
+      <span class="case-tag">Manufacturing · Johor · 2010–2011</span>
+      <h3 class="case-title">Ge-Shen Plastic – Lean Programme Initiation & Deployment</h3>
+      <ul class="case-outcomes">
+        <li>Trained 90% of all staff on Lean principles</li>
+        <li>Developed comprehensive Lean manuals for the organisation</li>
+        <li>Freed up valuable floor space by eliminating unnecessary inventory</li>
+        <li>Reduced work-in-progress (WIP) and mould changeover times</li>
+      </ul>
+    </div>
+    <div class="case-card">
+      <span class="case-tag">FMCG · Selangor · 2016–2017</span>
+      <h3 class="case-title">etika Holdings – Lean Practitioner Certification Programme</h3>
+      <ul class="case-outcomes">
+        <li>Trained, coached, evaluated & certified 20 staff</li>
+        <li>Built internal capability in root cause analysis & presentation</li>
+        <li>Reduced WIP wastage across production lines</li>
+        <li>Eliminated coding rejects and reduced pallet congestion</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS -->
+<section class="credentials" id="credentials">
+  <div class="section-label">Qualifications</div>
+  <h2>Credentials & Certifications</h2>
+  <div class="creds-grid">
+    <div class="cred-card">
+      <div class="cred-icon">🎓</div>
+      <div class="cred-title">Bachelor of Industrial Engineering (Hons)</div>
+      <div class="cred-sub">Australia</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-icon">🏛️</div>
+      <div class="cred-title">HRDC Accredited Trainer</div>
+      <div class="cred-sub">Trainer ID: 37734</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-icon">📐</div>
+      <div class="cred-title">Certified Six Sigma Green Belt</div>
+      <div class="cred-sub">Financial Services</div>
+    </div>
+    <div class="cred-card">
+      <div class="cred-icon">💻</div>
+      <div class="cred-title">Certified Virtual Learning Facilitator</div>
+      <div class="cred-sub">DRB-HICOM University</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-label" style="justify-content:center; color:var(--accent-light);">Get In Touch</div>
+  <h2>Ready to Train Your Team?</h2>
+  <p class="section-intro">
+    Whether you're looking for a one-day workshop or a long-term Lean transformation programme, 
+    Brian would love to discuss how he can help your organisation.
+  </p>
+  <div class="contact-cards">
+    <div class="contact-card">
+      <div class="contact-icon">📱</div>
+      <div class="contact-type">Phone / WhatsApp</div>
+      <div class="contact-value"><a href="tel:+60123825737">012-382 5737</a></div>
+    </div>
+  </div>
+  <p class="hrdc-note">All programmes are <strong>HRDC claimable</strong> — Malaysian employers can offset training costs.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Gan Wei Chung (Brian) · Lean & Operational Excellence Trainer · HRDC Accredited Trainer ID 37734</p>
+</footer>
+
+</body>
+</html>
